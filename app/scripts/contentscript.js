@@ -1,6 +1,13 @@
 'use strict';
 
 var fileContainers = document.getElementsByClassName('file');
+var fileHeaders = document.getElementsByClassName('file-header');
+
+var resetHeadersFrom = function(firstIndex) {
+  for (var i = firstIndex; i < fileHeaders.length; i++) {
+    fileHeaders[i].style.top = '0px';
+  }
+};
 
 var makeCurrentHeaderSticky = function() {
   
@@ -34,12 +41,9 @@ var makeCurrentHeaderSticky = function() {
   currentFileHeader.style.top = newHeaderTop + 'px';
   currentFileHeader.style.position = 'absolute';
   currentFileHeader.style.width = '100%';
-  currentFileHeader.style.zIndex = 2;
-
-  var fileHeaders = document.getElementsByClassName('file-header');
-  for (i = maxBerofeZeroIndex + 1; i < fileHeaders.length; i++) {
-    fileHeaders[i].style.top = '0px';
-  }
+  currentFileHeader.style.zIndex = 1;
+  
+  resetHeadersFrom(maxBerofeZeroIndex + 1);
 };
 
 var init = function() {
