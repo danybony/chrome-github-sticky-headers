@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "chrome-github-sticky-headers",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "Chrome extension to have the current file header visible while scrolling through the content of a file",
+    "description": "The description of the application"
+  }
+}
