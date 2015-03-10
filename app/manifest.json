@@ -17,8 +17,8 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "http://github.com/*",
+        "https://github.com/*"
       ],
       "js": [
         "scripts/contentscript.js"
