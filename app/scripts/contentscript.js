@@ -1,7 +1,9 @@
 'use strict';
 
-document.onscroll = function() {
-  var fileContainers = document.getElementsByClassName('file');
+var fileContainers = document.getElementsByClassName('file');
+
+var makeCurrentHeaderSticky = function() {
+  
   var maxBerofeZero = -1000000;
   var maxBerofeZeroIndex = -1;
   for(var i=0; i<fileContainers.length; i++) {
@@ -39,3 +41,20 @@ document.onscroll = function() {
     fileHeaders[i].style.top = '0px';
   }
 };
+
+var init = function() {
+  if (fileContainers.length !== 0) {
+    document.onscroll = makeCurrentHeaderSticky;
+  } else {
+    // remove onscroll listener if no file is present in the current page
+    document.onscroll = null;
+  }
+};
+
+chrome.runtime.onMessage.addListener(
+  function(request) {
+    if (request.type === 'init') {
+      init();
+    }
+  }
+);
