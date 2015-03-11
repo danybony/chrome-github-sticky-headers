@@ -3,14 +3,35 @@
 var fileContainers = document.getElementsByClassName('file');
 var fileHeaders = document.getElementsByClassName('file-header');
 
+var setHeaderTop = function(fileHeader, topPosition) {
+  fileHeader.style.top = topPosition + 'px';
+};
+
 var resetHeadersFrom = function(firstIndex) {
   for (var i = firstIndex; i < fileHeaders.length; i++) {
-    fileHeaders[i].style.top = '0px';
+    setHeaderTop(fileHeaders[i], 0);
   }
 };
 
-var makeCurrentHeaderSticky = function() {
-  
+var resetAllHeaders = function() {
+  for (var i = 0; i < fileHeaders.length; i++) {
+    fileHeaders[i].style.top = '0px';
+    fileHeaders[i].style.position = 'absolute';
+    fileHeaders[i].style.width = '100%';
+    fileHeaders[i].style.zIndex = 1;
+  }
+};
+
+var setFileContainersPadding = function() {
+  for (var i = 0; i < fileContainers.length; i++) {
+    fileContainers[i].style.top = '0px';
+    var currentFileHeader = fileContainers[i].getElementsByClassName('file-header')[0];
+    var headerHeight = currentFileHeader.getBoundingClientRect().height;
+    fileContainers[i].style.paddingTop = headerHeight + 'px';
+  }
+};
+
+var getCurrentFileContainerIndex = function() {
   var maxBerofeZero = -1000000;
   var maxBerofeZeroIndex = -1;
   for(var i=0; i<fileContainers.length; i++) {
@@ -20,34 +41,41 @@ var makeCurrentHeaderSticky = function() {
       maxBerofeZeroIndex = i;
     }
   }
+  return maxBerofeZeroIndex;
+};
+
+var makeCurrentHeaderSticky = function() {
+  var maxBerofeZeroIndex = getCurrentFileContainerIndex();
   if (maxBerofeZeroIndex === -1) {
-    document.getElementsByClassName('file-header')[0].style.top = '0px';
+    // reset the first one if we scrolled back
+    setHeaderTop(document.getElementsByClassName('file-header')[0], 0);
     return;
   }
+
   var currentfileContent = fileContainers[maxBerofeZeroIndex];
   var currentFileHeader = currentfileContent.getElementsByClassName('file-header')[0];
   var headerHeight = currentFileHeader.getBoundingClientRect().height;
-  currentfileContent.style.paddingTop = headerHeight + 'px';
-  var newHeaderTop = (currentfileContent.getBoundingClientRect().top * -1 - 1);
+  var newHeaderTop = (currentfileContent.getBoundingClientRect().top * -1) -1;
+
   if (newHeaderTop < 0) {
     // We reached the top of the file scrolling up
     return;
   }
   if (newHeaderTop + headerHeight > currentfileContent.getBoundingClientRect().height) {
     // We reached the bottom of the file scrolling down
-    currentFileHeader.style.top = currentfileContent.getBoundingClientRect().height - headerHeight + 'px';
+    setHeaderTop(currentFileHeader, currentfileContent.getBoundingClientRect().height - headerHeight + 'px');
     return;
   }
-  currentFileHeader.style.top = newHeaderTop + 'px';
-  currentFileHeader.style.position = 'absolute';
-  currentFileHeader.style.width = '100%';
-  currentFileHeader.style.zIndex = 1;
+
+  setHeaderTop(currentFileHeader, newHeaderTop);
   
   resetHeadersFrom(maxBerofeZeroIndex + 1);
 };
 
 var init = function() {
   if (fileContainers.length !== 0) {
+    resetAllHeaders();
+    setFileContainersPadding();
     document.onscroll = makeCurrentHeaderSticky;
   } else {
     // remove onscroll listener if no file is present in the current page
