@@ -7,3 +7,6 @@ app/bower_components
 test/bower_components
 package
 .idea/
+*.crx
+*.pem
+*.zip
