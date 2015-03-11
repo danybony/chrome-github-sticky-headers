@@ -47,8 +47,8 @@ var getCurrentFileContainerIndex = function() {
 var makeCurrentHeaderSticky = function() {
   var maxBerofeZeroIndex = getCurrentFileContainerIndex();
   if (maxBerofeZeroIndex === -1) {
-    // reset the first one if we scrolled back
-    setHeaderTop(document.getElementsByClassName('file-header')[0], 0);
+    // reset the headers if we scroll back before the first one
+    resetAllHeaders();
     return;
   }
 
