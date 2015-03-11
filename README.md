@@ -1,5 +1,7 @@
-# chrome-github-sticky-headers
+![Chrome Github Sticky Headers Logo](app/images/icon-48.png)  chrome-github-sticky-headers
 ========================
+
+[![Available in the Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/github-sticky-headers/gmilkdlfpkmfghknimmhhhjbagdbfnjf)
 
 > The first rule of classes is that they should be small.<br/>
 > The second rule of classes is that they should be smaller than that.
