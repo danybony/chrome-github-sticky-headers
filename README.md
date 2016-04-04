@@ -11,7 +11,9 @@
 > -- <cite>Robert C. Martin, Clean Code</cite>
 
 ...unfortunately this is not always the case.<br/>
-This chrome extension help you reviewing those 1000 loc files having the current file header always visible while scrolling through the page.
+This chrome extension helps you reviewing those 1000 loc files having the current file header always visible while scrolling through the page.
+
+**NEW**: you can now collapse and expand some or all of the changed files.
 
 ![Chrome Github Sticky Headers Screenshot](raw/screenshot_1.png)
 
@@ -36,7 +38,7 @@ Then add the `app` folder as an unpacked extension in Chrome.
 ##License
 
 ```
-   Copyright 2015 Daniele Bonaldo
+   Copyright 2015-2016 Daniele Bonaldo
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
