@@ -53,7 +53,8 @@ var setCollapsedButton = function(button) {
 };
 
 var getDiffBox = function(fileContainer) {
-  return fileContainer.getElementsByClassName('data highlight blob-wrapper')[0] ||
+  return fileContainer.getElementsByClassName('rich-diff')[0] ||
+    fileContainer.getElementsByClassName('data highlight blob-wrapper')[0] ||
     fileContainer.getElementsByClassName('render-container')[0] ||
     fileContainer.getElementsByClassName('data')[0];
 };
