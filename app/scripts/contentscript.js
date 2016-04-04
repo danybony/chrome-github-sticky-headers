@@ -4,6 +4,9 @@ var initialized = false;
 var prToolbarHeight;
 var fileContainers = document.getElementsByClassName('file');
 var fileHeaders = document.getElementsByClassName('file-header');
+var toggleButtons = [];
+var collapseText = 'Collapse';
+var expandText = 'Expand';
 
 var getPrToolbarHeight = function() {
   var toolbars = document.getElementsByClassName('pr-toolbar');
@@ -38,6 +41,90 @@ var setFileContainersPadding = function() {
     var headerHeight = fileHeaders[i].getBoundingClientRect().height;
     fileContainers[i].style.paddingTop = headerHeight + 'px';
   }
+};
+
+var setExpandedButton = function(button) {
+  button.setAttribute('aria-label', 'Collapse diff file');
+  button.innerHTML = collapseText;
+};
+
+var setCollapsedButton = function(button) {
+  button.setAttribute('aria-label', 'Expand diff file');
+  button.innerHTML = expandText;
+};
+
+var getDiffBox = function(fileContainer) {
+  return fileContainer.getElementsByClassName('data highlight blob-wrapper')[0] ||
+    fileContainer.getElementsByClassName('render-container')[0] ||
+    fileContainer.getElementsByClassName('data')[0];
+};
+
+var collapseFileContainer = function(button, fileContainer) {
+  var box = getDiffBox(fileContainer);
+  if (box) {
+    box.style.display = 'none';
+    setCollapsedButton(button);
+  }
+};
+
+var expandFileContainer = function(button, fileContainer) {
+  var box = getDiffBox(fileContainer);
+  if (box) {
+    box.style.display = 'initial';
+    setExpandedButton(button);
+  }
+};
+
+var toggleCollapseExpand = function(button, fileContainer) {
+  return function() {
+    if (button.innerHTML === collapseText) {
+      collapseFileContainer(button, fileContainer);
+    } else if (button.innerHTML === expandText) {
+      expandFileContainer(button, fileContainer);
+    }
+  };
+};
+
+var addCollapseExpandButtons = function() {
+  for (var i = 0; i < fileContainers.length; i++) {
+    var btn = document.createElement('A');
+    btn.setAttribute('class', 'btn btn-sm tooltipped tooltipped-nw');
+    fileContainers[i].getElementsByClassName('file-actions')[0].appendChild(btn);
+    setExpandedButton(btn);
+    btn.addEventListener('click', toggleCollapseExpand(btn, fileContainers[i]));
+    toggleButtons.push(btn);
+  }
+};
+
+var expandAll = function() {
+  for (var i = 0; i < fileContainers.length; i++) {
+    expandFileContainer(toggleButtons[i], fileContainers[i]);
+  }
+};
+
+var collapseAll = function() {
+  for (var i = 0; i < fileContainers.length; i++) {
+    collapseFileContainer(toggleButtons[i], fileContainers[i]);
+  }
+};
+
+var buildCollapseExpandDiv = function(text, fn) {
+  var div = document.createElement('DIV');
+  div.setAttribute('class', 'diffbar-item');
+  var button = document.createElement('BUTTON');
+  button.setAttribute('class', 'btn-link muted-link');
+  button.innerHTML = text + ' all';
+  button.addEventListener('click', fn);
+  div.appendChild(button);
+  return div;
+};
+
+var addCollapseExpandAllButtons = function() {
+  var right = document.getElementsByClassName('diffbar')[0].getElementsByClassName('right');
+  right = right[right.length - 1];
+
+  right.appendChild(buildCollapseExpandDiv(collapseText, collapseAll));
+  right.appendChild(buildCollapseExpandDiv(expandText, expandAll));
 };
 
 var getCurrentFileContainerIndex = function() {
@@ -86,6 +173,8 @@ var init = function() {
   if (fileContainers.length !== 0) {
     resetAllHeaders();
     setFileContainersPadding();
+    addCollapseExpandButtons();
+    addCollapseExpandAllButtons();
     document.onscroll = makeCurrentHeaderSticky;
   } else {
     // remove onscroll listener if no file is present in the current page
