@@ -38,7 +38,7 @@ Then add the `app` folder as an unpacked extension in Chrome.
 ##License
 
 ```
-   Copyright 2015 Daniele Bonaldo
+   Copyright 2015-2016 Daniele Bonaldo
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
