@@ -1,7 +1,17 @@
 'use strict';
 
+var prToolbarHeight;
 var fileContainers = document.getElementsByClassName('file');
 var fileHeaders = document.getElementsByClassName('file-header');
+
+var getPrToolbarHeight = function() {
+  var toolbars = document.getElementsByClassName('pr-toolbar');
+  var height = 0;
+  for (var i = 0; i < toolbars.length; i++) {
+    height = Math.max(height, toolbars[1].getBoundingClientRect().height);
+  }
+  return height;
+};
 
 var setHeaderTop = function(fileHeader, topPosition) {
   fileHeader.style.top = topPosition + 'px';
@@ -24,9 +34,7 @@ var resetAllHeaders = function() {
 
 var setFileContainersPadding = function() {
   for (var i = 0; i < fileContainers.length; i++) {
-    fileContainers[i].style.top = '0px';
-    var currentFileHeader = fileContainers[i].getElementsByClassName('file-header')[0];
-    var headerHeight = currentFileHeader.getBoundingClientRect().height;
+    var headerHeight = fileHeaders[i].getBoundingClientRect().height;
     fileContainers[i].style.paddingTop = headerHeight + 'px';
   }
 };
@@ -36,7 +44,7 @@ var getCurrentFileContainerIndex = function() {
   var maxBerofeZeroIndex = -1;
   for(var i=0; i<fileContainers.length; i++) {
     var currentTop = fileContainers[i].getBoundingClientRect().top;
-    if (currentTop > maxBerofeZero && currentTop < 0) {
+    if (currentTop > maxBerofeZero && currentTop < prToolbarHeight) {
       maxBerofeZero = currentTop;
       maxBerofeZeroIndex = i;
     }
@@ -53,26 +61,27 @@ var makeCurrentHeaderSticky = function() {
   }
 
   var currentfileContent = fileContainers[maxBerofeZeroIndex];
-  var currentFileHeader = currentfileContent.getElementsByClassName('file-header')[0];
+  var currentFileHeader = fileHeaders[maxBerofeZeroIndex];
   var headerHeight = currentFileHeader.getBoundingClientRect().height;
   var newHeaderTop = (currentfileContent.getBoundingClientRect().top * -1) -1;
 
-  if (newHeaderTop < 0) {
+  if (newHeaderTop < prToolbarHeight * -1) {
     // We reached the top of the file scrolling up
     return;
   }
-  if (newHeaderTop + headerHeight > currentfileContent.getBoundingClientRect().height) {
+  if (newHeaderTop + headerHeight + prToolbarHeight > currentfileContent.getBoundingClientRect().height) {
     // We reached the bottom of the file scrolling down
     setHeaderTop(currentFileHeader, currentfileContent.getBoundingClientRect().height - headerHeight + 'px');
     return;
   }
 
-  setHeaderTop(currentFileHeader, newHeaderTop);
+  setHeaderTop(currentFileHeader, newHeaderTop + prToolbarHeight);
   
   resetHeadersFrom(maxBerofeZeroIndex + 1);
 };
 
 var init = function() {
+  prToolbarHeight = getPrToolbarHeight();
   if (fileContainers.length !== 0) {
     resetAllHeaders();
     setFileContainersPadding();
