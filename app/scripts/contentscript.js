@@ -58,28 +58,28 @@ var getDiffBox = function(fileContainer) {
     fileContainer.getElementsByClassName('data')[0];
 };
 
-var collapseFileContainer = function(button, fileContainer) {
+var collapseFileContainer = function(fileContainer) {
   var box = getDiffBox(fileContainer);
   if (box) {
     box.style.display = 'none';
-    setCollapsedButton(button);
+    setCollapsedButton(fileContainer.getElementsByClassName('collapse-expand-btn')[0]);
   }
 };
 
-var expandFileContainer = function(button, fileContainer) {
+var expandFileContainer = function(fileContainer) {
   var box = getDiffBox(fileContainer);
   if (box) {
-    box.style.display = 'initial';
-    setExpandedButton(button);
+    box.style.display = 'inherit';
+    setExpandedButton(fileContainer.getElementsByClassName('collapse-expand-btn')[0]);
   }
 };
 
 var toggleCollapseExpand = function(button, fileContainer) {
   return function() {
     if (button.innerHTML === collapseText) {
-      collapseFileContainer(button, fileContainer);
+      collapseFileContainer(fileContainer);
     } else if (button.innerHTML === expandText) {
-      expandFileContainer(button, fileContainer);
+      expandFileContainer(fileContainer);
     }
   };
 };
@@ -87,7 +87,7 @@ var toggleCollapseExpand = function(button, fileContainer) {
 var addCollapseExpandButtons = function() {
   for (var i = 0; i < fileContainers.length; i++) {
     var btn = document.createElement('A');
-    btn.setAttribute('class', 'btn btn-sm tooltipped tooltipped-nw');
+    btn.setAttribute('class', 'btn btn-sm tooltipped tooltipped-nw collapse-expand-btn');
     fileContainers[i].getElementsByClassName('file-actions')[0].appendChild(btn);
     setExpandedButton(btn);
     btn.addEventListener('click', toggleCollapseExpand(btn, fileContainers[i]));
@@ -97,13 +97,13 @@ var addCollapseExpandButtons = function() {
 
 var expandAll = function() {
   for (var i = 0; i < fileContainers.length; i++) {
-    expandFileContainer(toggleButtons[i], fileContainers[i]);
+    expandFileContainer(fileContainers[i]);
   }
 };
 
 var collapseAll = function() {
   for (var i = 0; i < fileContainers.length; i++) {
-    collapseFileContainer(toggleButtons[i], fileContainers[i]);
+    collapseFileContainer(fileContainers[i]);
   }
 };
 
