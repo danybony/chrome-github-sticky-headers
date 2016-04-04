@@ -1,6 +1,5 @@
 'use strict';
 
-var initialized = false;
 var prToolbarHeight;
 var fileContainers = document.getElementsByClassName('file');
 var fileHeaders = document.getElementsByClassName('file-header');
@@ -184,9 +183,12 @@ var init = function() {
 
 chrome.runtime.onMessage.addListener(
   function(request) {
-    if (request.type === 'init' && !initialized) {
-      initialized = true;
-      init();
+    if (request.type === 'init') {
+      var diffbar = document.getElementsByClassName('diffbar');
+      if (diffbar.length === 1 && !/sticky-init/g.test(diffbar[0].className)) {
+        diffbar[0].className += ' sticky-init';
+        init();
+      }
     }
   }
 );
