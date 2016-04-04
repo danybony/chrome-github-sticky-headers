@@ -1,5 +1,6 @@
 'use strict';
 
+var initialized = false;
 var prToolbarHeight;
 var fileContainers = document.getElementsByClassName('file');
 var fileHeaders = document.getElementsByClassName('file-header');
@@ -94,7 +95,8 @@ var init = function() {
 
 chrome.runtime.onMessage.addListener(
   function(request) {
-    if (request.type === 'init') {
+    if (request.type === 'init' && !initialized) {
+      initialized = true;
       init();
     }
   }
