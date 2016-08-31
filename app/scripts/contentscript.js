@@ -120,7 +120,7 @@ var buildCollapseExpandDiv = function(text, fn) {
 };
 
 var addCollapseExpandAllButtons = function() {
-  var right = document.getElementsByClassName('diffbar')[0].getElementsByClassName('right');
+  var right = document.getElementsByClassName('diffbar')[0].getElementsByClassName('float-right');
   right = right[right.length - 1];
 
   right.appendChild(buildCollapseExpandDiv(collapseText, collapseAll));
