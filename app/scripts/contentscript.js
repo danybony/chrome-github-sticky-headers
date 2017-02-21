@@ -11,7 +11,7 @@ var getPrToolbarHeight = function() {
   var toolbars = document.getElementsByClassName('pr-toolbar');
   var height = 0;
   for (var i = 0; i < toolbars.length; i++) {
-    height = Math.max(height, toolbars[1].getBoundingClientRect().height);
+    height = Math.max(height, toolbars[i].getBoundingClientRect().height);
   }
   return height;
 };
