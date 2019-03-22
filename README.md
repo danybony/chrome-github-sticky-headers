@@ -1,7 +1,9 @@
 ![Chrome Github Sticky Headers Logo](app/images/icon-48.png)  chrome-github-sticky-headers
 ========================
 
-[![Available in the Chrome Web Store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/github-sticky-headers/gmilkdlfpkmfghknimmhhhjbagdbfnjf)
+# Deprecated
+Since March 2019 this feature is natively integrated on GitHub so this extension is no longer needed.
+
 ========================
 
 
